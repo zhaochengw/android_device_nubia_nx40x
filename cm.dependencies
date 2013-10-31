@@ -1,0 +1,6 @@
+[
+    {
+        "repository": "imwls/android_kernel_nubia_nx40x",
+        "target_path": "kernel/nubia/nx40x"
+    }
+]

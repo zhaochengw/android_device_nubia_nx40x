@@ -1,0 +1,245 @@
+# Copyright (c) 2011-2012, Code Aurora Forum. All rights reserved.
+#
+# redefined in 2012.11 by chengdongsheng ztemt
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * Neither the name of Code Aurora nor
+#       the names of its contributors may be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NON-INFRINGEMENT ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+on init
+    write /sys/class/android_usb/android0/f_rndis/wceis 1
+
+service qcom-usb-sh /system/bin/sh /init.qcom.usb.sh
+    class core
+    user root
+    oneshot
+	
+service ums_set /system/bin/sh /init.nubia.ums.sh &
+	class core
+	user root
+	disabled
+	oneshot
+
+service ums_adb_set /system/bin/sh /init.nubia.ums_adb.sh &
+	class core
+	user root
+	disabled
+	oneshot
+	
+# USB compositions
+####################################ztemt start###########################################
+#ztemt add by chengdongsheng for zte composition
+
+#######v5v5v55v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v#####start##########################
+
+on property:sys.usb.config=ptp,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFD1
+    write /sys/class/android_usb/android0/functions ptp,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=ptp
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    #//write /sys/class/android_usb/android0/idProduct FFD0
+    write /sys/class/android_usb/android0/idProduct FFD0
+    write /sys/class/android_usb/android0/functions ptp
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=mtp,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCF
+    write /sys/class/android_usb/android0/functions mtp,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}   
+
+on property:sys.usb.config=mtp
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCE
+    write /sys/class/android_usb/android0/functions mtp
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+
+#on property:sys.usb.config=mass_storage,adb
+on property:sys.usb.config=nubia_mass_storage,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCD
+    write /sys/class/android_usb/android0/functions mass_storage,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}   
+
+#on property:sys.usb.config=mass_storage
+on property:sys.usb.config=nubia_mass_storage
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCC
+    write /sys/class/android_usb/android0/functions mass_storage
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config} 
+
+on property:sys.usb.config=rndis,adb
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCB
+    write /sys/class/android_usb/android0/functions rndis,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state $sys.usb.config
+    
+on property:sys.usb.config=rndis
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFCA
+    write /sys/class/android_usb/android0/functions rndis
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+ 
+ on property:sys.usb.config=modem,service,nema,adb
+	 write /sys/class/android_usb/android0/enable 0
+	 write /sys/class/android_usb/android0/idVendor 19D2
+	 write /sys/class/android_usb/android0/idProduct FFC9
+	 write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+	 write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+	 write /sys/class/android_usb/android0/functions serial,adb
+	 write /sys/class/android_usb/android0/enable 1
+	 start adbd
+	 setprop sys.usb.state ${sys.usb.config}
+ 
+ on property:sys.usb.config=modem,service,nema
+	 write /sys/class/android_usb/android0/enable 0
+	 write /sys/class/android_usb/android0/idVendor 19D2
+	 write /sys/class/android_usb/android0/idProduct FFC8
+	 write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+	 write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+	 write /sys/class/android_usb/android0/functions serial
+	 write /sys/class/android_usb/android0/enable 1
+	 setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=modem,service,nema,mass_storage,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC7
+    write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+	write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+    write /sys/class/android_usb/android0/functions serial,mass_storage,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=modem,service,nema,mass_storage
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC6
+    write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+	write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+    write /sys/class/android_usb/android0/functions serial,mass_storage
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=diag,diag_mdm,mass_storage,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC5
+    write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm
+    write /sys/class/android_usb/android0/functions diag,mass_storage,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+    
+on property:sys.usb.config=diag,diag_mdm,mass_storage
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC4
+    write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm
+    write /sys/class/android_usb/android0/functions diag,mass_storage
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+
+
+on property:sys.usb.config=mass_storage,adb
+	start ums_adb_set
+	start adbd
+	setprop sys.usb.state ${sys.usb.config}
+	
+on property:sys.usb.config=mass_storage
+	start ums_set
+	setprop sys.usb.state ${sys.usb.config}
+	
+on property:sys.usb.config=diag,diag_mdm,modem,service,nema,mass_storage,adb
+#on property:sys.usb.config=mass_storage,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC3
+    write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm
+    write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+    write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+   	write /sys/class/android_usb/android0/functions diag,serial,mass_storage,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=diag,diag_mdm,modem,service,nema,mass_storage
+#on property:sys.usb.config=mass_storage
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC2
+    write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm
+    write /sys/class/android_usb/android0/f_serial/transports hsic,tty,tty
+    write /sys/class/android_usb/android0/f_serial/transport_names serial_hsic
+	write /sys/class/android_usb/android0/functions diag,serial,mass_storage
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC1
+    write /sys/class/android_usb/android0/functions adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=diag,mass_storage,adb
+	write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 19D2
+    write /sys/class/android_usb/android0/idProduct FFC0
+    write /sys/class/android_usb/android0/f_diag/clients diag
+    write /sys/class/android_usb/android0/functions diag,mass_storage,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
+
+
+#######v5v5v55v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v5v#####end##########################
+
+##############################################ztemt end ###########################    
+
