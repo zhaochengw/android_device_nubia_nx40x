@@ -29,7 +29,7 @@
 #dev_mount sdcard /storage/sdcard1 auto /devices/platform/msm_sdcc.3/mmc_host
 
 #Modified by ZTEMT
-dev_mount sdcard_in /storage/sdcard0 25 /devices/platform/msm_sdcc.1/mmc_host nonremovable
-dev_mount sdcard_ex /storage/sdcard1 auto /devices/platform/msm_sdcc.3/mmc_host
-dev_mount usb_otg /storage/usba auto /devices/platform/msm_hsusb_host
+dev_mount sdcard /storage/sdcard0 25 /devices/platform/msm_sdcc.1/mmc_host nonremovable
+dev_mount sdcard /storage/sdcard1 auto /devices/platform/msm_sdcc.3/mmc_host
+dev_mount sda /storage/usbdisk0 auto /devices/platform/msm_hsusb_host
 #dev_mount usb_dock /mnt/usbb auto /devices/platform/msm_ehci_host.0
