@@ -166,8 +166,10 @@ PRODUCT_COPY_FILES += \
 # Prebuilt keychars and keylayout
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/keylayout/atmel_mxt_ts.kl:system/usr/keylayout/atmel_mxt_ts.kl \
+	$(LOCAL_PATH)/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
 	$(LOCAL_PATH)/keylayout/Button_Jack.kl:system/usr/keylayout/Button_Jack.kl \
 	$(LOCAL_PATH)/keylayout/cyttsp-i2c.kl:system/usr/keylayout/cyttsp-i2c.kl \
+	$(LOCAL_PATH)/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
 	$(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	$(LOCAL_PATH)/keylayout/keypad_8960.kl:system/usr/keylayout/keypad_8960.kl \
 	$(LOCAL_PATH)/keylayout/keypad_8960_liquid.kl:system/usr/keylayout/keypad_8960_liquid.kl \
@@ -303,27 +305,28 @@ PRODUCT_COPY_FILES += \
 # QRNGD
 PRODUCT_PACKAGES += qrngd
 
+# Debugging
+PRODUCT_PROPERTY_OVERRIDES += \
+        ro.secure=0 \
+        service.adb.enable=1 \
+        sys.usb.config=adb \
+        ro.debuggable=1 \
+        persist.service.adb.enable=1
 
 #common build.props
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.hw=1 \
     debug.egl.hw=1 \
-    debug.composition.type=dyn \
+    debug.composition.type=gpu \
     persist.hwc.mdpcomp.enable=true \
     debug.mdpcomp.logs=0 \
-    persist.sys.strictmode.disable=true \
     com.qc.hardware=true \
     debug.egl.recordable.rgba8888=1 \
     ro.qualcomm.bt.hci_transport=smd \
-    rild.libpath=/system/lib/libril-qc-qmi-1.so \
     ro.telephony.ril.v3=qcomdsds \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15 \
-    ro.opengles.version=131072 \
     ro.sf.lcd_density=320 \
-    persist.audio.handset.mic=dmic \
-    persist.audio.fluence.mode=endfire \
-    persist.audio.lowlatency.rec=false \
     ro.telephony.call_ring.multiple=0
     
 

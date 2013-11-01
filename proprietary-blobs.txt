@@ -47,7 +47,6 @@ lib/egl/libEGL_adreno200.so
 lib/egl/libGLESv1_CM_adreno200.so
 lib/egl/libGLESv2S3D_adreno200.so
 lib/egl/libGLESv2_adreno200.so
-lib/egl/libplayback_adreno200.so
 lib/egl/libq3dtools_adreno200.so
 lib/hw/camera.msm8960.so
 lib/hw/gps.default.so
@@ -132,7 +131,6 @@ lib/libidl.so
 lib/libimage-jpeg-enc-omx-comp.so
 lib/libimage-omx-common.so
 lib/libllvm-a3xx.so
-lib/libllvm-arm.so
 lib/libloc_adapter.so
 lib/libloc_api_v02.so
 lib/libloc_eng.so

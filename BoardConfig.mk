@@ -38,7 +38,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 maxcpus=4
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 TARGET_KERNEL_CONFIG := apq8064-nubiamini_defconfig
-TARGET_KERNEL_SOURCE := ../test/nx40x
+TARGET_KERNEL_SOURCE := ../kernel/nx40x
 
 
 # Bluetooth
