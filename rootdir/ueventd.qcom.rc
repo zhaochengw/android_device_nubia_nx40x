@@ -160,3 +160,8 @@
 /sys/devices/virtual/usb_composite/*   enable      0664  root   system
 #ZTEMT add by chengdongsheng
 /dev/pn544  0660   nfc       nfc
+
+#Radio
+/dev/ks_hsic_bridge       0660   system      system
+/dev/efs_hsic_bridge      0660   system      system
+
